@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analysis Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-accent: #6a11cb;
+            --secondary-accent: #2575fc;
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --highlight: #fbbf24;
+            --neural-network: #8b5cf6;
+            --deep-learning: #ec4899;
+            --graph-algo: #14b8a6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg), #1e293b);
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #c7d2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .upload-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--highlight);
+        }
+
+        .section-title i {
+            font-size: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(106, 17, 203, 0.1),
+                rgba(37, 117, 252, 0.1)
+            );
+            transform: rotate(30deg);
+            transition: all 0.7s ease;
+        }
+
+        .file-upload:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .file-upload:hover::before {
+            transform: rotate(30deg) translate(-20%, -20%);
+        }
+
+        .file-upload i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-accent);
+            opacity: 0.8;
+        }
+
+        .file-upload p {
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        #file-name {
+            font-weight: 500;
+            color: var(--highlight);
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
+            color: white;
+            border: none;
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #64748b;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn i {
+            font-size: 1rem;
+        }
+
+        .results-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .data-preview {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            background: linear-gradient(to right, rgba(106, 17, 203, 0.3), rgba(37, 117, 252, 0.3));
+            font-weight: 600;
+            color: var(--highlight);
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .options-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .options-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .options-card {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .option-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--primary-accent), var(--secondary-accent));
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .option-card:hover::before {
+            height: 100%;
+        }
+
+        .option-card.selected {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(106, 17, 203, 0.5);
+            box-shadow: 0 5px 20px rgba(106, 17, 203, 0.2);
+        }
+
+        .option-card.selected::before {
+            height: 100%;
+        }
+
+        .option-card h4 {
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .option-card p {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .attribute-selection {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .attribute-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .attribute-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .attribute-option input {
+            margin: 0;
+        }
+
+        .visualization-section {
+            margin-top: 2rem;
+        }
+
+        .graphs-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .graphs-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .graph-card {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .graph-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .graph-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--highlight);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .graph-title i {
+            font-size: 0.9rem;
+        }
+
+        .graph-wrapper {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .tree-graph {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: monospace;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .metrics-section {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .metric-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            padding: 1.25rem;
+            border-left: 4px solid var(--primary-accent);
+        }
+
+        .metric-card h4 {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--secondary-accent);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: rgba(15, 23, 42, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Tabs styling */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--secondary-accent);
+            color: var(--highlight);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .upload-section {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>2022-ag-7742</h1>
+            <h1>Data Analysis Dashboard</h1>
+            <p class="subtitle">Upload your dataset, select algorithms, and visualize insights with multiple interactive graphs</p>
+        </header>
+
+        <div class="upload-section">
+            <h2 class="section-title"><i class="fas fa-cloud-upload-alt"></i> Data Upload</h2>
+            <div class="form-group">
+                <label for="file-upload">Select your dataset (CSV or Excel)</label>
+                <input type="file" id="file-upload" accept=".csv,.xlsx,.xls">
+                <div class="file-upload" id="file-upload-label">
+                    <i class="fas fa-file-excel"></i>
+                    
+                    <p>Drag & drop your file here or click to browse
+                        <br> After selecting click the button Process Data
+                    </p>
+                    <p id="file-name">No file selected</p>
+                </div>
+            </div>
+            <button id="upload-btn" class="btn" disabled>
+                <i class="fas fa-cogs"></i> Process Data
+            </button>
+        </div>
+
+        <div class="loading" id="loading-indicator">
+            <div class="spinner"></div>
+            <p>Processing your data. This may take a moment...</p>
+        </div>
+
+        <div class="results-section" id="results-section">
+            <div class="data-preview">
+                <h2 class="section-title"><i class="fas fa-table"></i> Data Preview</h2>
+                <div id="data-table-container"></div>
+            </div>
+
+            <div class="options-section">
+                <div class="options-card">
+                    <h2 class="section-title"><i class="fas fa-brain"></i> Algorithm Selection</h2>
+                    <p>Choose one or more algorithms to analyze your data</p>
+                    
+                    <div class="tabs">
+                        <div class="tab active" data-tab="supervised">Supervised</div>
+                        <div class="tab" data-tab="unsupervised">Unsupervised</div>
+                        <div class="tab" data-tab="deep-learning">Deep Learning</div>
+                        <div class="tab" data-tab="graph">Graph</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="supervised-tab">
+                        <div class="options-grid" id="algorithm-options">
+                            <div class="option-card" data-algo="linear_regression">
+                                <h4>Linear Regression</h4>
+                                <p>Predict continuous values based on relationships</p>
+                            </div>
+                            <div class="option-card" data-algo="logistic_regression">
+                                <h4>Logistic Regression</h4>
+                                <p>Binary classification algorithm</p>
+                            </div>
+                            <div class="option-card" data-algo="decision_tree">
+                                <h4>Decision Tree</h4>
+                                <p>Tree-like model for classification/regression</p>
+                            </div>
+                            <div class="option-card" data-algo="random_forest">
+                                <h4>Random Forest</h4>
+                                <p>Ensemble of decision trees</p>
+                            </div>
+                            <div class="option-card" data-algo="svm">
+                                <h4>Support Vector Machine</h4>
+                                <p>Powerful classification algorithm</p>
+                            </div>
+                            <div class="option-card" data-algo="neural_network">
+                                <h4>Neural Network</h4>
+                                <p>Multi-layer perceptron for complex patterns</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="unsupervised-tab">
+                        <div class="options-grid">
+                            <div class="option-card" data-algo="kmeans">
+                                <h4>K-Means Clustering</h4>
+                                <p>Unsupervised clustering algorithm</p>
+                            </div>
+                            <div class="option-card" data-algo="pca">
+                                <h4>Principal Component Analysis</h4>
+                                <p>Dimensionality reduction technique</p>
+                            </div>
+                            <div class="option-card" data-algo="dbscan">
+                                <h4>DBSCAN</h4>
+                                <p>Density-based clustering algorithm</p>
+                            </div>
+                            <div class="option-card" data-algo="gmm">
+                                <h4>Gaussian Mixture Model</h4>
+                                <p>Probabilistic clustering approach</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="deep-learning-tab">
+                        <div class="options-grid">
+                            <div class="option-card" data-algo="cnn">
+                                <h4>Convolutional Neural Network</h4>
+                                <p>For image and pattern recognition</p>
+                            </div>
+                            <div class="option-card" data-algo="rnn">
+                                <h4>Recurrent Neural Network</h4>
+                                <p>For sequential and time-series data</p>
+                            </div>
+                            <div class="option-card" data-algo="transformer">
+                                <h4>Transformer</h4>
+                                <p>Attention-based architecture</p>
+                            </div>
+                            <div class="option-card" data-algo="autoencoder">
+                                <h4>Autoencoder</h4>
+                                <p>For unsupervised feature learning</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="graph-tab">
+                        <div class="options-grid">
+                            <div class="option-card" data-algo="pagerank">
+                                <h4>PageRank</h4>
+                                <p>Link analysis algorithm</p>
+                            </div>
+                            <div class="option-card" data-algo="community_detection">
+                                <h4>Community Detection</h4>
+                                <p>Find clusters in network data</p>
+                            </div>
+                            <div class="option-card" data-algo="shortest_path">
+                                <h4>Shortest Path</h4>
+                                <p>Find optimal paths in graphs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="options-card">
+                    <h2 class="section-title"><i class="fas fa-chart-bar"></i> Visualization Options</h2>
+                    <p>Select multiple graph types to visualize your results</p>
+                    <div class="options-grid" id="graph-options">
+                        <div class="option-card" data-graph="scatter">
+                            <h4>Scatter Plot</h4>
+                            <p>Show relationships between variables</p>
+                        </div>
+                        <div class="option-card" data-graph="line">
+                            <h4>Line Chart</h4>
+                            <p>Visualize trends over time</p>
+                        </div>
+                        <div class="option-card" data-graph="bar">
+                            <h4>Bar Chart</h4>
+                            <p>Compare different categories</p>
+                        </div>
+                        <div class="option-card" data-graph="pie">
+                            <h4>Pie Chart</h4>
+                            <p>Show proportional data</p>
+                        </div>
+                        <div class="option-card" data-graph="area">
+                            <h4>Area Chart</h4>
+                            <p>Show cumulative data</p>
+                        </div>
+                        <div class="option-card" data-graph="tree">
+                            <h4>Tree Graph</h4>
+                            <p>Show hierarchical data</p>
+                        </div>
+                        <div class="option-card" data-graph="heatmap">
+                            <h4>Heatmap</h4>
+                            <p>Visualize matrix data</p>
+                        </div>
+                        <div class="option-card" data-graph="network">
+                            <h4>Network Graph</h4>
+                            <p>Show connections between nodes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="attribute-selection">
+                <h2 class="section-title"><i class="fas fa-list-ul"></i> Attribute Selection</h2>
+                <p>Select attributes to include in visualizations</p>
+                <div class="attribute-grid" id="attribute-options">
+                    <!-- Will be populated after file upload -->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="target-column">Select Target Column (for supervised learning)</label>
+                <select id="target-column" class="form-control">
+                    <option value="">-- Select Target Column --</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="framework-selection" style="display: none;">
+                <label for="framework">Select Framework (for deep learning)</label>
+                <select id="framework" class="form-control">
+                    <option value="tensorflow">TensorFlow</option>
+                    <option value="pytorch">PyTorch</option>
+                </select>
+            </div>
+
+            <button id="analyze-btn" class="btn">
+                <i class="fas fa-rocket"></i> Run Analysis
+            </button>
+
+            <div class="visualization-section">
+                <h2 class="section-title"><i class="fas fa-chart-area"></i> Visualizations</h2>
+                <p>Your selected visualizations will appear below</p>
+                <div class="graphs-container" id="graphs-container">
+                    <div class="graph-placeholder">
+                        <p>Select algorithms and graph types to generate visualizations</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metrics-section">
+                <h2 class="section-title"><i class="fas fa-tachometer-alt"></i> Model Metrics</h2>
+                <p>Performance metrics for your selected algorithms</p>
+                <div class="metrics-grid" id="metrics-container">
+                    <div class="metric-placeholder">
+                        <p>Analysis results will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025  Data Analysis Website by Warda Adan</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <script>
+        // Global variables
+        let uploadedData = null;
+        let selectedAlgorithms = [];
+        let selectedGraphs = [];
+        let selectedAttributes = [];
+        let currentCharts = [];
+        let columnNames = [];
+        let numericColumns = [];
+        
+        // DOM elements
+        const fileUpload = document.getElementById('file-upload');
+        const fileUploadLabel = document.getElementById('file-upload-label');
+        const fileName = document.getElementById('file-name');
+        const uploadBtn = document.getElementById('upload-btn');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const resultsSection = document.getElementById('results-section');
+        const algorithmOptions = document.getElementById('algorithm-options');
+        const graphOptions = document.getElementById('graph-options');
+        const attributeOptions = document.getElementById('attribute-options');
+        const targetColumnSelect = document.getElementById('target-column');
+        const frameworkSelection = document.getElementById('framework-selection');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const graphsContainer = document.getElementById('graphs-container');
+        const metricsContainer = document.getElementById('metrics-container');
+        const dataTableContainer = document.getElementById('data-table-container');
+        
+        // Event listeners
+        fileUpload.addEventListener('change', handleFileUpload);
+        fileUploadLabel.addEventListener('click', () => fileUpload.click());
+        uploadBtn.addEventListener('click', processUploadedFile);
+        analyzeBtn.addEventListener('click', runAnalysis);
+        
+        // Add drag and drop functionality
+        fileUploadLabel.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fileUploadLabel.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+            fileUploadLabel.style.background = 'rgba(255, 255, 255, 0.05)';
+        });
+        
+        fileUploadLabel.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fileUploadLabel.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            fileUploadLabel.style.background = '';
+        });
+        
+        fileUploadLabel.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fileUploadLabel.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            fileUploadLabel.style.background = '';
+            
+            if (e.dataTransfer.files.length) {
+                fileUpload.files = e.dataTransfer.files;
+                handleFileUpload({ target: fileUpload });
+            }
+        });
+        
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+                
+                // Show framework selection only for deep learning tab
+                frameworkSelection.style.display = tabId === 'deep-learning' ? 'block' : 'none';
+            });
+        });
+        
+        // Add event listeners to algorithm and graph options
+        document.querySelectorAll('.option-card[data-algo]').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('selected');
+                const algo = card.getAttribute('data-algo');
+                
+                if (card.classList.contains('selected')) {
+                    if (!selectedAlgorithms.includes(algo)) {
+                        selectedAlgorithms.push(algo);
+                    }
+                } else {
+                    selectedAlgorithms = selectedAlgorithms.filter(a => a !== algo);
+                }
+            });
+        });
+        
+        document.querySelectorAll('#graph-options .option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('selected');
+                const graph = card.getAttribute('data-graph');
+                
+                if (card.classList.contains('selected')) {
+                    if (!selectedGraphs.includes(graph)) {
+                        selectedGraphs.push(graph);
+                    }
+                } else {
+                    selectedGraphs = selectedGraphs.filter(g => g !== graph);
+                }
+            });
+        });
+
+        // Handle attribute selection changes
+        function handleAttributeSelection(event) {
+            const attribute = event.target.value;
+            const isChecked = event.target.checked;
+            
+            if (isChecked && !selectedAttributes.includes(attribute)) {
+                selectedAttributes.push(attribute);
+            } else {
+                selectedAttributes = selectedAttributes.filter(a => a !== attribute);
+            }
+        }
+        
+        // Handle file upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                fileName.textContent = file.name;
+                uploadBtn.disabled = false;
+            } else {
+                fileName.textContent = 'No file selected';
+                uploadBtn.disabled = true;
+            }
+        }
+        
+        // Process uploaded file
+        function processUploadedFile() {
+            const file = fileUpload.files[0];
+            if (!file) return;
+            
+            loadingIndicator.style.display = 'block';
+            resultsSection.style.display = 'none';
+            
+            // Check file extension
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            
+            if (fileExtension === 'csv') {
+                parseCSV(file);
+            } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+                parseExcel(file);
+            } else {
+                alert('Please upload a valid CSV or Excel file.');
+                loadingIndicator.style.display = 'none';
+            }
+        }
+        
+        // Parse CSV file
+        function parseCSV(file) {
+            Papa.parse(file, {
+                header: true,
+                complete: function(results) {
+                    handleParsedData(results.data, results.meta.fields);
+                },
+                error: function(error) {
+                    console.error('Error parsing CSV:', error);
+                    loadingIndicator.style.display = 'none';
+                    alert('Error parsing CSV file. Please check the file format.');
+                }
+            });
+        }
+        
+        // Parse Excel file
+        function parseExcel(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    // Get the first sheet
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+                    
+                    // Extract headers (first row)
+                    const headers = jsonData[0];
+                    // Extract data (remaining rows)
+                    const rows = jsonData.slice(1);
+                    
+                    // Convert to array of objects
+                    const formattedData = rows.map(row => {
+                        const obj = {};
+                        headers.forEach((header, i) => {
+                            obj[header] = row[i];
+                        });
+                        return obj;
+                    });
+                    
+                    handleParsedData(formattedData, headers);
+                } catch (error) {
+                    console.error('Error parsing Excel:', error);
+                    loadingIndicator.style.display = 'none';
+                    alert('Error parsing Excel file. Please check the file format.');
+                }
+            };
+            reader.onerror = function(error) {
+                console.error('Error reading file:', error);
+                loadingIndicator.style.display = 'none';
+                alert('Error reading the file. Please try again.');
+            };
+            reader.readAsArrayBuffer(file);
+        }
+        
+        // Handle parsed data
+        function handleParsedData(data, columns) {
+            if (!data || !columns || columns.length === 0) {
+                alert('No valid data found in the file. Please check the file content.');
+                loadingIndicator.style.display = 'none';
+                return;
+            }
+            
+            uploadedData = data;
+            columnNames = columns;
+            selectedAttributes = [];
+            
+            // Identify numeric columns
+            numericColumns = identifyNumericColumns(data, columns);
+            
+            // Populate target column dropdown
+            targetColumnSelect.innerHTML = '<option value="">-- Select Target Column --</option>';
+            columns.forEach(column => {
+                const option = document.createElement('option');
+                option.value = column;
+                option.textContent = column;
+                targetColumnSelect.appendChild(option);
+            });
+            
+            // Populate attribute selection options
+            attributeOptions.innerHTML = '';
+            columns.forEach(column => {
+                const option = document.createElement('div');
+                option.className = 'attribute-option';
+                option.innerHTML = `
+                    <input type="checkbox" id="attr-${column}" value="${column}" ${numericColumns.includes(column) ? 'checked' : ''}>
+                    <label for="attr-${column}">${column}</label>
+                `;
+                attributeOptions.appendChild(option);
+                
+                // Add event listener
+                const checkbox = option.querySelector('input');
+                checkbox.addEventListener('change', handleAttributeSelection);
+                
+                if (numericColumns.includes(column)) {
+                    selectedAttributes.push(column);
+                }
+            });
+            
+            // Display data preview
+            displayDataPreview(data, columns);
+            
+            loadingIndicator.style.display = 'none';
+            resultsSection.style.display = 'block';
+        }
+        
+        // Identify numeric columns in the data
+        function identifyNumericColumns(data, columns) {
+            const numericCols = [];
+            if (!data || data.length === 0) return numericCols;
+            
+            const sampleSize = Math.min(10, data.length);
+            
+            columns.forEach(col => {
+                let isNumeric = true;
+                for (let i = 0; i < sampleSize; i++) {
+                    const value = data[i][col];
+                    if (value !== null && value !== undefined && value !== '' && isNaN(Number(value))) {
+                        isNumeric = false;
+                        break;
+                    }
+                }
+                if (isNumeric) {
+                    numericCols.push(col);
+                }
+            });
+            
+            return numericCols;
+        }
+        
+        // Display data preview
+        function displayDataPreview(data, columns) {
+            // Show only first 10 rows for preview
+            const previewData = data.slice(0, 10);
+            
+            let tableHTML = '<table><thead><tr>';
+            
+            // Create header row
+            columns.forEach(column => {
+                tableHTML += `<th>${column}</th>`;
+            });
+            tableHTML += '</tr></thead><tbody>';
+            
+            // Create data rows
+            previewData.forEach(row => {
+                tableHTML += '<tr>';
+                columns.forEach(column => {
+                    const value = row[column] !== undefined ? row[column] : '';
+                    tableHTML += `<td>${typeof value === 'object' ? JSON.stringify(value) : value}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += '</tbody></table>';
+            dataTableContainer.innerHTML = tableHTML;
+        }
+        
+        // Run analysis
+        function runAnalysis() {
+            if (selectedAlgorithms.length === 0) {
+                alert('Please select at least one algorithm.');
+                return;
+            }
+            
+            if (selectedGraphs.length === 0) {
+                alert('Please select at least one graph type.');
+                return;
+            }
+            
+            if (selectedAttributes.length === 0) {
+                alert('Please select at least one attribute to visualize.');
+                return;
+            }
+            
+            // For supervised algorithms, check if target column is selected
+            const supervisedAlgorithms = ['linear_regression', 'logistic_regression', 'decision_tree', 'random_forest', 'svm', 'neural_network'];
+            const hasSupervisedAlgorithm = selectedAlgorithms.some(algo => supervisedAlgorithms.includes(algo));
+            
+            if (hasSupervisedAlgorithm && !targetColumnSelect.value) {
+                alert('Please select a target column for supervised learning algorithms.');
+                return;
+            }
+            
+            loadingIndicator.style.display = 'block';
+            
+            // Simulate processing delay (in a real app, this would be an API call)
+            setTimeout(() => {
+                displayResults();
+                loadingIndicator.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Display results
+        function displayResults() {
+            // Clear previous charts and metrics
+            currentCharts.forEach(chart => {
+                if (chart && chart.destroy) {
+                    chart.destroy();
+                }
+            });
+            currentCharts = [];
+            graphsContainer.innerHTML = '';
+            metricsContainer.innerHTML = '';
+            
+            // Generate metrics for each algorithm
+            selectedAlgorithms.forEach(algorithm => {
+                const metrics = generateAlgorithmMetrics(algorithm);
+                const metricCard = document.createElement('div');
+                metricCard.className = 'metric-card';
+                
+                // Special border color for different algorithm types
+                let borderColor = 'var(--primary-accent)';
+                if (algorithm.includes('cnn') || algorithm.includes('rnn') || algorithm.includes('transformer') || algorithm.includes('autoencoder')) {
+                    borderColor = 'var(--deep-learning)';
+                } else if (algorithm.includes('pagerank') || algorithm.includes('community_detection') || algorithm.includes('shortest_path')) {
+                    borderColor = 'var(--graph-algo)';
+                } else if (algorithm.includes('neural_network')) {
+                    borderColor = 'var(--neural-network)';
+                }
+                
+                metricCard.style.borderLeftColor = borderColor;
+                
+                metricCard.innerHTML = `
+                    <h4>${formatAlgorithmName(algorithm)}</h4>
+                    <div class="metric-value">${metrics.accuracy}%</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem;">
+                        ${metrics.details.map(detail => `<div>${detail.label}: ${detail.value}</div>`).join('')}
+                    </div>
+                `;
+                metricsContainer.appendChild(metricCard);
+            });
+            
+            // Generate graphs for each selected type
+            selectedGraphs.forEach(graphType => {
+                selectedAlgorithms.forEach(algorithm => {
+                    const graphCard = document.createElement('div');
+                    graphCard.className = 'graph-card';
+                    
+                    const graphTitle = document.createElement('div');
+                    graphTitle.className = 'graph-title';
+                    graphTitle.innerHTML = `<i class="fas fa-chart-${getGraphIcon(graphType)}"></i> ${formatAlgorithmName(algorithm)} - ${formatGraphName(graphType)}`;
+                    
+                    const graphWrapper = document.createElement('div');
+                    graphWrapper.className = 'graph-wrapper';
+                    
+                    if (graphType === 'tree') {
+                        const treeContainer = document.createElement('div');
+                        treeContainer.className = 'tree-graph';
+                        treeContainer.textContent = generateTreeGraph();
+                        graphWrapper.appendChild(treeContainer);
+                    } else if (graphType === 'network') {
+                        const networkContainer = document.createElement('div');
+                        networkContainer.className = 'tree-graph';
+                        networkContainer.textContent = generateNetworkGraph();
+                        graphWrapper.appendChild(networkContainer);
+                    } else if (graphType === 'heatmap') {
+                        const canvas = document.createElement('canvas');
+                        graphWrapper.appendChild(canvas);
+                        
+                        // Generate and render the heatmap
+                        const chartData = generateHeatmapData(algorithm);
+                        const chart = new Chart(canvas, {
+                            type: 'bar',
+                            data: chartData,
+                            options: getHeatmapOptions(algorithm)
+                        });
+                        
+                        currentCharts.push(chart);
+                    } else {
+                        const canvas = document.createElement('canvas');
+                        graphWrapper.appendChild(canvas);
+                        
+                        // Generate and render the chart
+                        const chartData = generateChartData(graphType, algorithm);
+                        const chart = new Chart(canvas, {
+                            type: getChartType(graphType),
+                            data: chartData,
+                            options: getChartOptions(graphType, algorithm)
+                        });
+                        
+                        currentCharts.push(chart);
+                    }
+                    
+                    graphCard.appendChild(graphTitle);
+                    graphCard.appendChild(graphWrapper);
+                    graphsContainer.appendChild(graphCard);
+                });
+            });
+        }
+        
+        // Generate metrics for different algorithm types
+        function generateAlgorithmMetrics(algorithm) {
+            const metrics = {
+                accuracy: (Math.random() * 30 + 70).toFixed(2) // 70-100% accuracy
+            };
+            
+            // Add algorithm-specific metrics
+            if (algorithm.includes('regression')) {
+                metrics.details = [
+                    { label: 'MSE', value: (Math.random() * 100).toFixed(2) },
+                    { label: 'R²', value: (Math.random() * 0.5 + 0.5).toFixed(2) },
+                    { label: 'MAE', value: (Math.random() * 50).toFixed(2) }
+                ];
+            } else if (algorithm.includes('random_forest') || algorithm.includes('decision_tree')) {
+                metrics.details = [
+                    { label: 'Precision', value: (Math.random() * 30 + 65).toFixed(2) + '%' },
+                    { label: 'Recall', value: (Math.random() * 30 + 60).toFixed(2) + '%' },
+                    { label: 'F1 Score', value: (Math.random() * 30 + 65).toFixed(2) + '%' }
+                ];
+            } else if (algorithm.includes('svm')) {
+                metrics.details = [
+                    { label: 'Precision', value: (Math.random() * 30 + 65).toFixed(2) + '%' },
+                    { label: 'Recall', value: (Math.random() * 30 + 60).toFixed(2) + '%' },
+                    { label: 'Support Vectors', value: Math.floor(Math.random() * 100) }
+                ];
+            } else if (algorithm.includes('kmeans') || algorithm.includes('dbscan') || algorithm.includes('gmm')) {
+                metrics.details = [
+                    { label: 'Silhouette Score', value: (Math.random() * 0.5 + 0.3).toFixed(2) },
+                    { label: 'Clusters', value: Math.floor(Math.random() * 5) + 2 },
+                    { label: 'Inertia', value: (Math.random() * 1000).toFixed(2) }
+                ];
+            } else if (algorithm.includes('pca')) {
+                metrics.details = [
+                    { label: 'Explained Variance', value: (Math.random() * 50 + 50).toFixed(2) + '%' },
+                    { label: 'Components', value: Math.floor(Math.random() * 5) + 2 },
+                    { label: 'Cumulative Variance', value: (Math.random() * 30 + 70).toFixed(2) + '%' }
+                ];
+            } else if (algorithm.includes('neural_network') || algorithm.includes('cnn') || algorithm.includes('rnn') || algorithm.includes('transformer')) {
+                metrics.details = [
+                    { label: 'Loss', value: (Math.random() * 0.5 + 0.1).toFixed(4) },
+                    { label: 'Precision', value: (Math.random() * 30 + 65).toFixed(2) + '%' },
+                    { label: 'Recall', value: (Math.random() * 30 + 60).toFixed(2) + '%' },
+                    { label: 'Epochs', value: Math.floor(Math.random() * 50) + 10 }
+                ];
+            } else if (algorithm.includes('pagerank') || algorithm.includes('community_detection') || algorithm.includes('shortest_path')) {
+                metrics.details = [
+                    { label: 'Nodes', value: Math.floor(Math.random() * 50) + 10 },
+                    { label: 'Edges', value: Math.floor(Math.random() * 200) + 50 },
+                    { label: 'Modularity', value: (Math.random() * 0.5 + 0.3).toFixed(2) }
+                ];
+            } else {
+                metrics.details = [
+                    { label: 'Precision', value: (Math.random() * 30 + 65).toFixed(2) + '%' },
+                    { label: 'Recall', value: (Math.random() * 30 + 60).toFixed(2) + '%' },
+                    { label: 'F1 Score', value: (Math.random() * 30 + 65).toFixed(2) + '%' }
+                ];
+            }
+            
+            return metrics;
+        }
+        
+        // Helper functions
+        function formatAlgorithmName(algo) {
+            return algo.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
+        
+        function formatGraphName(graph) {
+            return graph.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
+        
+        function getGraphIcon(graphType) {
+            const icons = {
+                scatter: 'line',
+                line: 'line',
+                bar: 'bar',
+                pie: 'pie',
+                area: 'area-chart',
+                tree: 'sitemap',
+                heatmap: 'th',
+                network: 'project-diagram'
+            };
+            return icons[graphType] || 'chart-bar';
+        }
+        
+        function getChartType(graphType) {
+            return graphType === 'area' ? 'line' : graphType;
+        }
+        
+        function getChartOptions(graphType, algorithm) {
+            const baseOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `${formatAlgorithmName(algorithm)} - ${formatGraphName(graphType)}`,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index',
+                        intersect: false
+                    }
+                }
+            };
+            
+            if (graphType === 'pie') {
+                return {
+                    ...baseOptions,
+                    plugins: {
+                        ...baseOptions.plugins,
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                const label = ctx.chart.data.labels[ctx.dataIndex];
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    }
+                };
+            }
+            
+            if (graphType === 'area') {
+                return {
+                    ...baseOptions,
+                    scales: {
+                        y: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Value'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Category'
+                            }
+                        }
+                    }
+                };
+            }
+            
+            return baseOptions;
+        }
+        
+        function getHeatmapOptions(algorithm) {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `${formatAlgorithmName(algorithm)} - Feature Importance`,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Features'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Importance'
+                        }
+                    }
+                }
+            };
+        }
+        
+        function generateChartData(graphType, algorithm) {
+            switch (graphType) {
+                case 'scatter':
+                    return generateScatterData(algorithm);
+                case 'line':
+                    return generateLineData(algorithm);
+                case 'bar':
+                    return generateBarData(algorithm);
+                case 'pie':
+                    return generatePieData(algorithm);
+                case 'area':
+                    return generateAreaData(algorithm);
+                default:
+                    return generateBarData(algorithm);
+            }
+        }
+
+        function generateTreeGraph() {
+            if (!uploadedData || uploadedData.length === 0 || selectedAttributes.length === 0) {
+                return "Insufficient data to generate tree graph";
+            }
+
+            // Simple tree representation based on selected attributes
+            let tree = "Root\n";
+            const maxDepth = Math.min(3, selectedAttributes.length);
+            const sampleSize = Math.min(5, uploadedData.length);
+
+            for (let i = 0; i < maxDepth; i++) {
+                const attr = selectedAttributes[i];
+                const indent = " ".repeat((i + 1) * 4);
+                tree += `${indent}└── ${attr}\n`;
+
+                // Add some sample values
+                if (i < maxDepth - 1) {
+                    for (let j = 0; j < sampleSize; j++) {
+                        const value = uploadedData[j][attr] || "N/A";
+                        tree += `${indent}    └── ${value}\n`;
+                    }
+                }
+            }
+
+            return tree;
+        }
+        
+        function generateNetworkGraph() {
+            if (!uploadedData || uploadedData.length === 0 || selectedAttributes.length < 2) {
+                return "Insufficient data to generate network graph";
+            }
+
+            // Simple network representation
+            let network = "Network Graph\n";
+            network += "Nodes (Entities):\n";
+            
+            // Show first 5 nodes
+            const nodeCount = Math.min(5, uploadedData.length);
+            for (let i = 0; i < nodeCount; i++) {
+                network += `• Node ${i+1}: ${selectedAttributes[0]} = ${uploadedData[i][selectedAttributes[0]]}\n`;
+            }
+            
+            network += "\nEdges (Connections):\n";
+            // Show some sample connections
+            for (let i = 0; i < Math.min(3, nodeCount); i++) {
+                for (let j = i+1; j < Math.min(i+3, nodeCount); j++) {
+                    const weight = Math.random().toFixed(2);
+                    network += `• Node ${i+1} ↔ Node ${j+1} (weight: ${weight})\n`;
+                }
+            }
+            
+            return network;
+        }
+        
+        function generateHeatmapData(algorithm) {
+            if (!uploadedData || uploadedData.length === 0 || selectedAttributes.length === 0) {
+                return {
+                    labels: [],
+                    datasets: [{
+                        label: 'Insufficient Data',
+                        data: [],
+                        backgroundColor: []
+                    }]
+                };
+            }
+            
+            const numFeatures = Math.min(5, selectedAttributes.length);
+            const features = selectedAttributes.slice(0, numFeatures);
+            
+            // Generate random importance values for each feature
+            const importance = features.map(() => Math.random() * 100);
+            const total = importance.reduce((sum, val) => sum + val, 0);
+            const normalizedImportance = importance.map(val => (val / total * 100).toFixed(2));
+            
+            // Generate colors based on importance
+            const backgroundColors = normalizedImportance.map(val => {
+                const opacity = 0.5 + (val / 200);
+                return `rgba(106, 17, 203, ${opacity})`;
+            });
+            
+            return {
+                labels: features,
+                datasets: [{
+                    label: 'Feature Importance',
+                    data: normalizedImportance,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors.map(c => c.replace('0.5', '1')),
+                    borderWidth: 1
+                }]
+            };
+        }
+        
+        // Data generation functions using actual data
+        function generateScatterData(algorithm) {
+            if (!uploadedData || uploadedData.length === 0 || selectedAttributes.length < 2) {
+                return {
+                    datasets: [{
+                        label: 'Insufficient Data',
+                        data: [],
+                        backgroundColor: getAlgorithmColor(algorithm, 0.7),
+                        borderColor: getAlgorithmColor(algorithm, 1),
+                        borderWidth: 1
+                    }]
+                };
+            }
+            
+            const xCol = selectedAttributes[0];
+            const yCol = selectedAttributes[1];
+            const data = uploadedData.slice(0, 100).map(row => ({
+                x: parseFloat(row[xCol]) || 0,
+                y: parseFloat(row[yCol]) || 0
+            }));
+            
+            return {
+                datasets: [{
+                    label: `${xCol} vs ${yCol}`,
+                    data: data,
+                    backgroundColor: getAlgorithmColor(algorithm, 0.7),
+                    borderColor: getAlgorithmColor(algorithm, 1),
+                    borderWidth: 1,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            };
+        }
+        
+        function generateLineData(algorithm) {
+            if (!uploadedData || uploadedData.length === 0 || selectedAttributes.length === 0) {
+                return {
+                    labels: [],
+                    datasets: [{
+                        label: 'Insufficient Data',
+                        data: [],
+                        backgroundColor: getAlgorithmColor(algorithm, 0.2),
+                        borderColor: getAlgorithmColor(algorithm, 1),
+                        borderWidth: 2
+                    }]
+                };
+            }
+            
+            const numPoints = Math.min(20, uploadedData.length);
+            const yCol = selectedAttributes[0];
+            const labels = Array.from({length: numPoints}, (_, i) => `Point ${i+1}`);
+            const data = uploadedData.slice(0, numPoints).map(row => parseFloat(row[yCol]) || 0);
+            
+            return {
+                labels: labels,
+                datasets: [{
+                    label: yCol,
+                    data: data,
+                    backgroundColor: getAlgorithmColor(algorithm, 0.2),
+                    borderColor: getAlgorithmColor(algorithm, 1),
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: false
+                }]
+            };
+        }
+        
+        function generateBarData(algorithm) {
+            if (!uploadedData || uploadedData.length === 0 || selectedAttributes.length === 0) {
+                return {
+                    labels: [],
+                    datasets: [{
+                        label: 'Insufficient Data',
+                        data: [],
+                        backgroundColor: getAlgorithmColor(algorithm, 0.7),
+                        borderColor: getAlgorithmColor(algorithm, 1),
+                        borderWidth: 1
+                    }]
+                };
+            }
+            
+            const numBars = Math.min(5, selectedAttributes.length);
+            const cols = selectedAttributes.slice(0, numBars);
+            const labels = cols;
+            
+            // Calculate average values for each selected column
+            const data = cols.map(col => {
+                const sum = uploadedData.reduce((acc, row) => acc + (parseFloat(row[col]) || 0), 0);
+                return sum / uploadedData.length;
+            });
+            
+            return {
+                labels: labels,
+                datasets: [{
+                    label: 'Average Values',
+                    data: data,
+                    backgroundColor: cols.map((col, i) => getAlgorithmColor(algorithm, 0.7 - (i * 0.1))),
+                    borderColor: cols.map(() => getAlgorithmColor(algorithm, 1)),
+                    borderWidth: 1
+                }]
+            };
+        }
+        
+        function generatePieData(algorithm) {
+            if (!uploadedData || uploadedData.length === 0 || selectedAttributes.length === 0) {
+                return {
+                    labels: [],
+                    datasets: [{
+                        label: 'Insufficient Data',
+                        data: [],
+                        backgroundColor: [],
+                        borderColor: [],
+                        borderWidth: 1
+                    }]
+                };
+            }
+            
+            const attr = selectedAttributes[0];
+            const valueCounts = {};
+            
+            // Count occurrences of each value in the selected attribute
+            uploadedData.slice(0, 100).forEach(row => {
+                const value = row[attr] || 'Unknown';
+                valueCounts[value] = (valueCounts[value] || 0) + 1;
+            });
+            
+            const labels = Object.keys(valueCounts);
+            const data = Object.values(valueCounts);
+            
+            // Generate distinct colors for each slice
+            const backgroundColors = labels.map((_, i) => {
+                const hue = (i * 360 / labels.length);
+                return `hsla(${hue}, 70%, 60%, 0.7)`;
+            });
+            
+            return {
+                labels: labels,
+                datasets: [{
+                    label: `Distribution of ${attr}`,
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors.map(c => c.replace('0.7', '1')),
+                    borderWidth: 1
+                }]
+            };
+        }
+        
+        function generateAreaData(algorithm) {
+            if (!uploadedData || uploadedData.length === 0 || selectedAttributes.length === 0) {
+                return {
+                    labels: [],
+                    datasets: [{
+                        label: 'Insufficient Data',
+                        data: [],
+                        backgroundColor: getAlgorithmColor(algorithm, 0.2),
+                        borderColor: getAlgorithmColor(algorithm, 1),
+                        borderWidth: 2
+                    }]
+                };
+            }
+            
+            const numPoints = Math.min(10, uploadedData.length);
+            const labels = Array.from({length: numPoints}, (_, i) => `Point ${i+1}`);
+            
+            // Create dataset for each selected attribute
+            const datasets = selectedAttributes.slice(0, 3).map((attr, i) => {
+                const data = uploadedData.slice(0, numPoints).map(row => parseFloat(row[attr]) || 0);
+                return {
+                    label: attr,
+                    data: data,
+                    backgroundColor: getAlgorithmColor(algorithm, 0.3 - (i * 0.1)),
+                    borderColor: getAlgorithmColor(algorithm, 1),
+                    borderWidth: 1,
+                    fill: true,
+                    tension: 0.4
+                };
+            });
+            
+            return {
+                labels: labels,
+                datasets: datasets
+            };
+        }
+        
+        function getAlgorithmColor(algorithm, opacity = 1) {
+            const colors = {
+                // Supervised learning
+                linear_regression: `rgba(106, 17, 203, ${opacity})`,
+                logistic_regression: `rgba(37, 117, 252, ${opacity})`,
+                decision_tree: `rgba(16, 185, 129, ${opacity})`,
+                random_forest: `rgba(245, 158, 11, ${opacity})`,
+                svm: `rgba(239, 68, 68, ${opacity})`,
+                neural_network: `rgba(139, 92, 246, ${opacity})`,
+                
+                // Unsupervised learning
+                kmeans: `rgba(236, 72, 153, ${opacity})`,
+                pca: `rgba(20, 184, 166, ${opacity})`,
+                dbscan: `rgba(249, 115, 22, ${opacity})`,
+                gmm: `rgba(6, 182, 212, ${opacity})`,
+                
+                // Deep learning
+                cnn: `rgba(217, 70, 239, ${opacity})`,
+                rnn: `rgba(244, 114, 182, ${opacity})`,
+                transformer: `rgba(192, 132, 252, ${opacity})`,
+                autoencoder: `rgba(253, 186, 116, ${opacity})`,
+                
+                // Graph algorithms
+                pagerank: `rgba(20, 184, 166, ${opacity})`,
+                community_detection: `rgba(6, 182, 212, ${opacity})`,
+                shortest_path: `rgba(34, 211, 238, ${opacity})`
+            };
+            
+            return colors[algorithm] || `rgba(106, 17, 203, ${opacity})`;
+        }
+    </script>
+</body>
+</html>
